@@ -24,9 +24,11 @@ u.close()
 now = datetime.datetime.now()
 
 basedir = '/home/pi/Python/Timelapse-catedral/'
-dir = basedir+'images/'+str(now.year)+'/'+str2(now.month)+'/'+str2(now.day)
+dir = basedir+str(now.year)+'/'+str2(now.month)+'/'+str2(now.day)+'/images'
 call(['mkdir', '-p', dir])
 
 f = open(dir+'/'+str(now.year)+'-'+str2(now.month)+'-'+str2(now.day)+'_'+str2(now.hour)+'-'+str2(now.minute)+'-'+str2(now.second)+'.jpg','wb')
 f.write(raw_data)
 f.close()
+
+"""test"""
