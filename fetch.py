@@ -9,7 +9,7 @@ Created on Wed Jul 19 16:55:42 2017
 import urllib.request
 import datetime
 from subprocess import call
-
+import os
 
 def str2(n):
     if n<10:
