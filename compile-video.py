@@ -11,7 +11,10 @@ def str2(n):
 
 now = datetime.datetime.now()
 
-basedir = open('basedir.txt','r').read()
+homedir = os.path.expanduser("~")
+basedir = open(homedir+'/.timelapse-catedral/basedir.txt','r').read().strip()
+if basedir[-1] != '/': basedir = basedir+'/'
+
 dir = basedir+str(now.year)+'/'+str2(now.month)+'/'+str2(now.day)
 
 call(['mkdir', '-p', dir+'/images'])

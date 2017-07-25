@@ -23,11 +23,14 @@ u.close()
 
 now = datetime.datetime.now()
 
-basedir = open('basedir.txt','r').read()
-dir = basedir+str(now.year)+'/'+str2(now.month)+'/'+str2(now.day)+'/images'
+homedir = os.path.expanduser("~")
+basedir = open(homedir+'/.timelapse-catedral/basedir.txt','r').read().strip()
+if basedir[-1] != '/': basedir = basedir+'/'
 
-call(['mkdir', '-p', dir])
+dir = basedir+str(now.year)+'/'+str2(now.month)+'/'+str2(now.day)
 
-f = open(dir+'/'+str(now.year)+'-'+str2(now.month)+'-'+str2(now.day)+'_'+str2(now.hour)+'-'+str2(now.minute)+'-'+str2(now.second)+'.jpg','wb')
+call(['mkdir', '-p', dir+'/images'])
+
+f = open(dir+'/images/'+str(now.year)+'-'+str2(now.month)+'-'+str2(now.day)+'_'+str2(now.hour)+'-'+str2(now.minute)+'-'+str2(now.second)+'.jpg','wb')
 f.write(raw_data)
 f.close()
