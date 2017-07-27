@@ -6,7 +6,7 @@ Created on Wed Jul 19 16:55:42 2017
 
 @author: leo
 
-Fetches the image from a URL
+Fetches the image from an URL
 """
 
 import urllib.request
