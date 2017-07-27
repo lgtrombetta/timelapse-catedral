@@ -4,11 +4,12 @@ from shutil import move
 from time import sleep
 import os, sys
 import json
+
 app = Flask(__name__, static_url_path='/static')
 
 @app.route('/')
 def index():
-    return render_template('capture.html')
+    return render_template('index.html')
 
 @app.route('/capture/')
 def capture():
