@@ -39,15 +39,21 @@ def today():
 
     today_rp = os.path.join('files', str(now.year), str2(now.month),
                             str2(now.day))
-    today_rp_img = os.path.join(today_rp, 'images')
+    today_ap = os.path.join(base_dir, 'static', today_rp)
 
-    today_ap_img = os.path.join(base_dir, 'static', today_rp_img)
+    today_rp_img = os.path.join(today_rp, 'images')
+    today_ap_img = os.path.join(today_ap, 'images')
 
     images = [url_for('static', filename=os.path.join(today_rp_img, f))
               for f in os.listdir(today_ap_img) if
               os.path.isfile(os.path.join(today_ap_img, f))]
 
-    data = json.dumps(images, ensure_ascii=False)
+    video = [url_for('static', filename=os.path.join(today_rp, f))
+             for f in os.listdir(today_ap) if
+             os.path.isfile(os.path.join(today_ap, f))]
+
+    data = json.dumps({'images': images, 'video': video[0]},
+                      ensure_ascii=False)
 
     return render_template('show.html', data=data)
 
