@@ -12,7 +12,8 @@ def index():
 
 @app.route('/capture/')
 def capture():
-    call(["gphoto2","--capture-image-and-download"]) 
+    return render_template('capture.html')
+    call(["gphoto2","--capture-image-and-download"])
     sleep(2)
     move("capt0000.jpg", "static/img/capt0000.jpg")
     sleep(1)
@@ -20,4 +21,3 @@ def capture():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
-
