@@ -21,25 +21,23 @@ def str2(num):
     return str(num)
 
 
-now = datetime.datetime.now()
-
 home_dir = os.path.expanduser("~")
 base_dir = open(home_dir+'/.timelapse-catedral/basedir.txt', 'r').read()
 base_dir = base_dir.strip()
 
-if base_dir[-1] != '/':
-    base_dir = base_dir+'/'
+now = datetime.datetime.now()
 
-path = base_dir+str(now.year)+'/'+str2(now.month)+'/'+str2(now.day)
+path = os.path.join(base_dir, 'static/files', str(now.year), str2(now.month),
+                    str2(now.day))
 
-sp.call(['mkdir', '-p', path+'/images'])
-os.chdir(path+'/images')
+sp.call(['mkdir', '-p', os.path.join(path, 'images')])
+os.chdir(os.path.join(path, 'images'))
 
 filename = str(now.year)+'-'+str2(now.month)+'-'+str2(now.day)+'_timelapse.mp4'
 
 try:
     sp.check_call("ffmpeg -pattern_type glob -i '*.jpg' -y "+filename,
                   shell=True)
-    sp.check_call(['mv', filename, '../'+filename])
+    sp.check_call(['mv', filename, os.path.join('..', filename)])
 except sp.CalledProcessError:
     print("ffmpeg required, please install")

@@ -27,21 +27,19 @@ u = urllib.request.urlopen('https://catedralaltapatagonia.com/partediario/' +
 raw_data = u.read()
 u.close()
 
-now = datetime.datetime.now()
-
 home_dir = os.path.expanduser("~")
 base_dir = open(home_dir+'/.timelapse-catedral/basedir.txt', 'r').read()
 base_dir = base_dir.strip()
 
-if base_dir[-1] != '/':
-    base_dir = base_dir+'/'
+now = datetime.datetime.now()
 
-path = base_dir+str(now.year)+'/'+str2(now.month)+'/'+str2(now.day)
+path = os.path.join(base_dir, 'static/files', str(now.year), str2(now.month),
+                    str2(now.day))
 
-call(['mkdir', '-p', path+'/images'])
+call(['mkdir', '-p', os.path.join(path, 'images')])
 
-f = open(path+'/images/'+str(now.year)+'-'+str2(now.month)+'-'+str2(now.day) +
-         '_'+str2(now.hour)+'-'+str2(now.minute)+'-'+str2(now.second)+'.jpg',
-         'wb')
+f = open(os.path.join(path, 'images', str(now.year)+'-'+str2(now.month)+'-' +
+                      str2(now.day)+'_'+str2(now.hour)+'-'+str2(now.minute) +
+                      '-'+str2(now.second)+'.jpg'), 'wb')
 f.write(raw_data)
 f.close()
