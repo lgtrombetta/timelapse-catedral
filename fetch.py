@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# pylint: disable=I0011,C0103
 """
 Created on Wed Jul 19 16:55:42 2017
 
 @author: leo
+
+Fetches the image from a URL
 """
 
 import urllib.request
@@ -11,26 +14,34 @@ import datetime
 from subprocess import call
 import os
 
-def str2(n):
-    if n<10:
-        return str(0)+str(n)
-    else:
-        return str(n)
 
-u = urllib.request.urlopen('https://catedralaltapatagonia.com/partediario/images_webcams/foto_cam_06.jpg')
+def str2(num):
+    """Completes one-digit numbers with a preceding 0"""
+    if num < 10:
+        return str(0)+str(num)
+    return str(num)
+
+
+u = urllib.request.urlopen('https://catedralaltapatagonia.com/partediario/' +
+                           'images_webcams/foto_cam_06.jpg')
 raw_data = u.read()
 u.close()
 
 now = datetime.datetime.now()
 
-homedir = os.path.expanduser("~")
-basedir = open(homedir+'/.timelapse-catedral/basedir.txt','r').read().strip()
-if basedir[-1] != '/': basedir = basedir+'/'
+home_dir = os.path.expanduser("~")
+base_dir = open(home_dir+'/.timelapse-catedral/basedir.txt', 'r').read()
+base_dir = base_dir.strip()
 
-dir = basedir+str(now.year)+'/'+str2(now.month)+'/'+str2(now.day)
+if base_dir[-1] != '/':
+    base_dir = base_dir+'/'
 
-call(['mkdir', '-p', dir+'/images'])
+path = base_dir+str(now.year)+'/'+str2(now.month)+'/'+str2(now.day)
 
-f = open(dir+'/images/'+str(now.year)+'-'+str2(now.month)+'-'+str2(now.day)+'_'+str2(now.hour)+'-'+str2(now.minute)+'-'+str2(now.second)+'.jpg','wb')
+call(['mkdir', '-p', path+'/images'])
+
+f = open(path+'/images/'+str(now.year)+'-'+str2(now.month)+'-'+str2(now.day) +
+         '_'+str2(now.hour)+'-'+str2(now.minute)+'-'+str2(now.second)+'.jpg',
+         'wb')
 f.write(raw_data)
 f.close()
