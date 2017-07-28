@@ -58,5 +58,11 @@ def today():
     return render_template('show.html', data=data)
 
 
+@viewer.route('/<year>/<month>/<day>/')
+def show(year, month, day):
+    print(os.path.join(year, month, day))
+
+    return render_template('show.html', data=os.path.join(year, month, day))
+
 if __name__ == '__main__':
     viewer.run(debug=True, host='0.0.0.0')
