@@ -51,16 +51,20 @@ def show(year, month, day):
     rp_img = os.path.join(rel_path, 'images')
     ap_img = os.path.join(abs_path, 'images')
 
-    images = [url_for('static', filename=os.path.join(rp_img, f))
-              for f in os.listdir(ap_img) if
-              os.path.isfile(os.path.join(ap_img, f))]
+    if os.path.isdir(ap_img):
+        images = [url_for('static', filename=os.path.join(rp_img, f))
+                  for f in os.listdir(ap_img) if
+                  os.path.isfile(os.path.join(ap_img, f))]
 
-    video = [url_for('static', filename=os.path.join(rel_path, f))
-             for f in os.listdir(abs_path) if
-             os.path.isfile(os.path.join(abs_path, f))]
+        video = [url_for('static', filename=os.path.join(rel_path, f))
+                 for f in os.listdir(abs_path) if
+                 os.path.isfile(os.path.join(abs_path, f))]
+    else:
+        images = []
+        video = []
 
     data = json.dumps({'date': os.path.join(year, month, day),
-                       'images': images, 'video': video[0]},
+                       'images': images, 'video': video},
                       ensure_ascii=False)
 
     return render_template('show.html', data=data)
