@@ -9,10 +9,10 @@ Created on Wed Jul 19 16:55:42 2017
 Fetches the image from an URL
 """
 
-import urllib.request
 import datetime
-from subprocess import call
 import os
+import urllib.request
+from subprocess import call
 
 
 def str2(num):

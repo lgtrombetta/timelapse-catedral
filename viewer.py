@@ -5,9 +5,9 @@
 Web viewer
 """
 
-import os
 import datetime
 import json
+import os
 from flask import Flask, render_template, url_for
 
 
