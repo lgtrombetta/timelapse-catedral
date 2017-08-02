@@ -27,12 +27,15 @@ now = datetime.datetime.now()
 
 
 parser = argparse.ArgumentParser(description="compile video")
-parser.add_argument("-t", help="date in yyyy-mm-dd format", default=str(
-    now.year)+'-'+str2(now.month)+'-'+str2(now.day))
+parser.add_argument("-d", "--date", help="date in yyyy-mm-dd format",
+                    default=str(now.year) +
+                    '-'+str2(now.month)+'-'+str2(now.day))
+parser.add_argument("-f", "--fps", type=int, help="frames per second",
+                    default=25)
 args = parser.parse_args()
 
 
-date = datetime.datetime(*time.strptime(args.t, "%Y-%m-%d")[:3])
+date = datetime.datetime(*time.strptime(args.date, "%Y-%m-%d")[:3])
 
 
 home_dir = os.path.expanduser("~")
@@ -44,16 +47,17 @@ path = os.path.join(base_dir, 'static/files', str(date.year), str2(date.month),
 
 
 if not os.path.exists(path):
-    print("No images exist from", args.t)
+    print("No images exist from", args.date)
 else:
     sp.call(['mkdir', '-p', os.path.join(path, 'images')])
     os.chdir(os.path.join(path, 'images'))
 
     filename = str(date.year)+'-'+str2(date.month)+'-'+str2(
-        date.day)+'_timelapse.mp4'
+        date.day)+'_timelapse_fps'+str(args.fps)+'.mp4'
 
     try:
-        sp.check_call("ffmpeg -pattern_type glob -i '*.jpg' -y "+filename,
+        sp.check_call("ffmpeg -framerate "+str(args.fps) +
+                      " -pattern_type glob -i '*.jpg' -y "+filename,
                       shell=True)
         sp.check_call(['mv', filename, os.path.join('..', filename)])
     except sp.CalledProcessError:
